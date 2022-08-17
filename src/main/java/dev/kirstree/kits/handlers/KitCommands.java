@@ -1,5 +1,6 @@
 package dev.kirstree.kits.handlers;
 
+import dev.kirstree.kits.Kits;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -37,40 +38,54 @@ public class KitCommands implements CommandExecutor {
 
         kitsGui = Bukkit.createInventory(null, InventoryType.CHEST, ChatColor.AQUA + "Select a kit");
 
-        ArmourTypes leather = new ArmourTypes( "Leather", Material.LEATHER_CHESTPLATE, ChatColor.RED);
-        ArmourTypes gold = new ArmourTypes("Gold", Material.GOLDEN_CHESTPLATE, ChatColor.GOLD);
-        ArmourTypes iron = new ArmourTypes("Iron", Material.IRON_CHESTPLATE, ChatColor.GRAY);
-        ArmourTypes diamond = new ArmourTypes("Diamond", Material.DIAMOND_CHESTPLATE, ChatColor.AQUA);
-        ArmourTypes netherite = new ArmourTypes("Netherite", Material.NETHERITE_CHESTPLATE, ChatColor.DARK_PURPLE);
+        ArmourType leather = new ArmourType( "Leather", 11, Material.LEATHER_CHESTPLATE, ChatColor.RED);
+        ArmourType gold = new ArmourType("Gold", 12, Material.GOLDEN_CHESTPLATE, ChatColor.GOLD);
+        ArmourType iron = new ArmourType("Iron", 13, Material.IRON_CHESTPLATE, ChatColor.GRAY);
+        ArmourType diamond = new ArmourType("Diamond", 14, Material.DIAMOND_CHESTPLATE, ChatColor.AQUA);
+        ArmourType netherite = new ArmourType("Netherite",15, Material.NETHERITE_CHESTPLATE, ChatColor.DARK_PURPLE);
 
-        ItemStack grayPane = new ItemStack(Material.GRAY_STAINED_GLASS_PANE, 1);
-        ItemMeta grayPaneMeta = grayPane.getItemMeta();
-        assert grayPaneMeta != null;
-        grayPaneMeta.setDisplayName("-----");
-        grayPane.setItemMeta(grayPaneMeta);
+        for(int i = 0; i < 26; i++) {
+            if(Kits.armourTypes.containsKey(i)){
+                kitsGui.setItem(i, guiButton(Kits.armourTypes.get(i)));
+            }
+            else {
+                kitsGui.setItem(i, guiBlankButton());
+            }
+        }
 
-        kitsGui.setItem(11, leather);
-        kitsGui.setItem(12, gold);
-        kitsGui.setItem(13, iron);
-        kitsGui.setItem(14, diamond);
-        kitsGui.setItem(15, netherite);
+        p.openInventory(kitsGui);
+    }
+
+    private static ItemStack guiButton(ArmourType armourType) {
+        ItemStack itemstack = new ItemStack(armourType.material, 1);
+        ItemMeta meta = itemstack.getItemMeta();
+        assert meta != null;
+        meta.setDisplayName(armourType.color + armourType.name);
+        itemstack.setItemMeta(meta);
+        return itemstack;
+    }
+    private static ItemStack guiBlankButton() {
+        ItemStack itemstack = new ItemStack(Material.GRAY_STAINED_GLASS_PANE, 1);
+        ItemMeta meta = itemstack.getItemMeta();
+        assert meta != null;
+        meta.setDisplayName("----");
+        itemstack.setItemMeta(meta);
+        return itemstack;
     }
 
 
-    public static class ArmourTypes extends ItemStack {
+    public static class ArmourType extends ItemStack {
         public String name;
         public Material material;
         public ChatColor color;
 
-        public ArmourTypes(String name, Material material, ChatColor color) {
+        public ArmourType(String name, int slotNumber, Material material, ChatColor color) {
             this.name = name;
             this.material = material;
             this.color = color;
+            Kits.armourTypes.put(slotNumber, this);
 
 
         }
     }
-
-
-
 }
