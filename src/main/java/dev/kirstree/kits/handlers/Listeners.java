@@ -13,6 +13,13 @@ import java.util.Objects;
 
 public class Listeners implements Listener {
 
+    private static ItemStack enchantment(ItemStack itemStack, Enchantment enchantment) {
+        ItemMeta meta = Objects.requireNonNull(itemStack.getItemMeta());
+        meta.addEnchant(enchantment,1, true);
+        itemStack.setItemMeta(meta);
+        return itemStack;
+    }
+
     @EventHandler
     public void clickEvent(InventoryClickEvent e) {
 
@@ -40,7 +47,7 @@ public class Listeners implements Listener {
                     p.getInventory().addItem(goldBoots, goldChest, goldHelmet, goldLeggings, goldSword);
                     break;
                 }
-                case 13:{
+                case 13: {
                     p.closeInventory();
                     ItemStack ironHelmet = enchantment(new ItemStack(Material.IRON_HELMET), Enchantment.PROTECTION_ENVIRONMENTAL);
                     ItemStack ironChest = enchantment(new ItemStack(Material.IRON_CHESTPLATE), Enchantment.PROTECTION_ENVIRONMENTAL);
@@ -50,7 +57,7 @@ public class Listeners implements Listener {
                     p.getInventory().addItem(ironBoots, ironChest, ironHelmet, ironLeggings, ironSword);
                     break;
                 }
-                case 14:{
+                case 14: {
                     p.closeInventory();
                     ItemStack diamondHelmet = enchantment(new ItemStack(Material.DIAMOND_HELMET), Enchantment.PROTECTION_ENVIRONMENTAL);
                     ItemStack diamondChest = enchantment(new ItemStack(Material.DIAMOND_CHESTPLATE), Enchantment.PROTECTION_ENVIRONMENTAL);
@@ -60,7 +67,7 @@ public class Listeners implements Listener {
                     p.getInventory().addItem(diamondBoots, diamondChest, diamondHelmet, diamondLeggings, diamondSword);
                     break;
                 }
-                case 15:{
+                case 15: {
                     p.closeInventory();
                     ItemStack netheriteHelmet = enchantment(new ItemStack(Material.NETHERITE_HELMET), Enchantment.PROTECTION_ENVIRONMENTAL);
                     ItemStack netheriteChest = enchantment(new ItemStack(Material.NETHERITE_CHESTPLATE), Enchantment.PROTECTION_ENVIRONMENTAL);
@@ -73,11 +80,6 @@ public class Listeners implements Listener {
             }
         }
     }
-
-    private static ItemStack enchantment(ItemStack itemStack, Enchantment enchantment) {
-        ItemMeta meta = Objects.requireNonNull(itemStack.getItemMeta());
-        meta.addEnchant(enchantment,1, true);
-        itemStack.setItemMeta(meta);
-        return itemStack;
-    }
 }
+
+
